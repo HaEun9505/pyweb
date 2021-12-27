@@ -8,6 +8,9 @@ from board.models import Question, Answer
 from board.forms import QuestionForm, AnswerForm
 
 def index(request):
+    return render(request, 'board/index.html')
+
+def boardlist(request):
     #질문 목록
     #question_list = Question.objects.all()  #db 전체조회
     question_list = Question.objects.order_by('-create_date')   #작성일 내림차순
@@ -90,18 +93,17 @@ def answer_modify(request, answer_id):
         form = AnswerForm(request.POST, instance=answer)
         if form.is_valid():
             answer = form.save(commit=False)
-            answer.author = request.user
             answer.modify_date = timezone.now()
+            answer.author = request.user
             answer.save()
             return redirect('board:detail', question_id=answer.question.id)
     else:
         form = AnswerForm(instance=answer)
-    context = {'answer':answer, 'form':form}
-    return render(request, 'board/answer_form.html', context)
+    return render(request, 'board/answer_form.html', {'form':form})
 
 @login_required(login_url='common:login')
 def answer_delete(request, answer_id):
     #답변 삭제
     answer = get_object_or_404(Answer, pk=answer_id)
-    answer.delete()   #답변 삭제
-    return redirect('board:index', question_id=answer.question_id)
+    answer.delete()
+    return redirect('board:detail', question_id=answer.question.id)
