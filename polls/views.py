@@ -21,8 +21,8 @@ def vote(request, pk):
         choice_id = request.POST['choice']
         sel_choice = question.choice_set.get(id=choice_id)
     except:
-        return render(request, 'polls/detail.html',
-                      {'question':question, 'error':'선택을 확인하세요'})
+        context = {'question':question, 'error':'선택을 확인하세요'}
+        return render(request, 'polls/detail.html', context)
     else:
         sel_choice.votes = sel_choice.votes + 1
         sel_choice.save()   #db에 저장
