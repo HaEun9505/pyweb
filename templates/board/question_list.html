@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
 {% load board_filter %}
 {% block content %}
-<div class="container">
+<div class="container my-3">
     <section>
+    <!-- 검색 입력 상자와 찾기버튼 -->
+    <div class="row justify-content-end mb-2">
+        <div class="col-4 input-group">
+            <input type="text" class="kw form-control" value="{{kw|default_if_none:'' }}">
+            <div class="input-group-append">
+                <button type="button" id="btn_search"
+                        class="btn btn-outline-secondary">찾기</button>
+            </div>
+        </div>
+    </div>
+    <!-- 게시판 목록 -->
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -18,7 +29,7 @@
                     <td>
                         {% if question.voter.all.count > 0 %}
                         <span class="badge badge-warning px-2 py-1">
-                            {{ question.voter.all.count }}
+                          {{ question.voter.all.count }}
                         </span>
                         {% endif %}
                     </td>
@@ -28,7 +39,7 @@
                             {{ question.subject }}
                         </a>
                         {% if question.answer_set.count > 0 %}
-                            <span class="text-danger small">[{{ question.answer_set.count }}]</span>
+                          <span class="text-danger small">[{{ question.answer_set.count }}]</span>
                         {% endif %}
                     </td>
                     <td>{{ question.author }}</td>
@@ -40,43 +51,51 @@
             {% endif %}
         </tbody>
     </table>
-    <!-- 페이징 처리 시작 -->
+    <!-- 페이징 처리 시작-->
     <ul class="pagination justify-content-center">
         <!-- 이전 페이지 -->
         {% if question_list.has_previous %}
-        <li class="page-item">   <!-- 경로 활성화 -->
-            <a class="page-link"
-                href="?page={{ question_list.previous_page_number }}">이전</a>
+        <li class="page-item">
+<!--            <a class="page-link"-->
+<!--               href="?page={{ question_list.previous_page_number }}">이전</a>-->
+            <a class="page-link" href="#"
+               data-page="{{ question_list.previous_page_number }}">이전</a>
         </li>
-        {% else %}<!-- 이전 페이지가 없으면(마지막이면) -->
+        {% else %} <!-- 이전페이가 없으면(마지막이면) -->
         <li class="page-item disabled">
             <a class="page-link" href="#">이전</a>
         </li>
         {% endif %}
 
-        <!-- 페이지 리스트 -->
+        <!-- 페이지 리스트-->
         {% for page_number in question_list.paginator.page_range %}
             {% if page_number == question_list.number %}
-            <li class="page-item active">   <!-- 경로 활성화 -->
-                <a class="page-link"
-                    href="?page={{ page_number }}">{{ page_number }}</a>
+            <li class="page-item active"> <!--번호 활성화-->
+<!--                <a class="page-link"-->
+<!--                   href="?page={{ page_number }}">{{ page_number }}</a>-->
+                <a class="page-link" href="#"
+                   data-page="{{ page_number }}">{{ page_number }}</a>
             </li>
             {% else %}
             <li class="page-item">
-                <a class="page-link"
-                    href="?page={{ page_number }}">{{ page_number }}</a>
-                <!-- 해당 경로의 페이지 -->
+<!--                <a class="page-link"-->
+<!--                   href="?page={{ page_number }}">{{ page_number }}</a>-->
+                <a class="page-link" href="#"
+                   data-page="{{ page_number }}">{{ page_number }}</a>
+            <!-- 해당 경로의 페이지-->
             </li>
             {% endif %}
         {% endfor %}
 
         <!-- 다음 페이지 -->
         {% if question_list.has_next %}
-        <li class="page-item">   <!-- 경로 활성화 -->
-            <a class="page-link"
-                href="?page={{ question_list.next_page_number }}">다음</a>
+        <li class="page-item">
+<!--            <a class="page-link"-->
+<!--               href="?page={{ question_list.next_page_number }}">다음</a>-->
+            <a class="page-link" href="#"
+               data-page="{{ question_list.next_page_number }}">다음</a>
         </li>
-        {% else %}<!--  다음 페이지가 없으면(마지막이면) -->
+        {% else %} <!-- 다음페이가 없으면(마지막이면) -->
         <li class="page-item disabled">
             <a class="page-link" href="#">다음</a>
         </li>
@@ -84,8 +103,31 @@
     </ul>
     <!-- 페이징 처리 끝 -->
     <a class="btn btn-primary"
-       href="{% url 'board:question_create' %}">질문 등록</a>
+        href="{% url 'board:question_create' %}">질문 등록</a>
+        <!-- 검색 폼 만들기 -->
+        <form action="" method="get" id="searchForm"><!-- page, kw get방식으로 요청 -->
+            <input type="hidden" name="kw" id="kw">
+            <input type="hidden" name="page" id="page">
+        </form>
     </section>
 </div>
 {% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function(){
+        //페이지 처리
+        $(".page-link").on("click", function(){     //페이지 번호를 클릭하면
+            $("#page").val($(this).data("page"));   //해당 페이지 번호를 입력 필드에 가져옴
+            $("#searchForm").submit();              //폼을 전송
+        });
 
+        //검색 처리
+        $("#btn_search").on("click", function(){
+            let text = $(".kw").val();              //검색어 값
+            $("#kw").val(text);                     //폼의 입력 필드에 설정
+            $("#page").val(1);                      //1페이지를 page 필드에 설정
+            $("#searchForm").submit();              //폼을 전송
+        });
+    });
+</script>
+{% endblock %}
