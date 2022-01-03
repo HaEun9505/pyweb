@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9555e930-c8f3-44b3-a9e1-363294c7488d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/board/views/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board/views/answer_views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board/views/base_views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board/views/comment_views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board/views/question_views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board/views/vote_views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/board/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/board/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/board/question_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/board/question_form.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,7 +36,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../git_test/pyweb" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../BlogB" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
